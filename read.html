@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Warehouse Inventory Optimizer</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            margin: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            max-width: 1000px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+        }
+
+        .result {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📦 Warehouse Inventory Optimizer</h1>
+
+<div class="box">
+
+    <h2>Warehouse Constraints</h2>
+
+    <form method="POST">
+
+        <label>Capacity:</label>
+        <input type="number"
+               name="capacity"
+               value="{{ capacity }}">
+
+        <label>Budget:</label>
+        <input type="number"
+               name="budget"
+               value="{{ budget }}">
+
+        <button type="submit">Optimize</button>
+
+    </form>
+
+</div>
+
+
+<div class="box">
+
+    <h2>📊 Product Ranking - Sorting</h2>
+
+    <table>
+
+        <tr>
+            <th>Product</th>
+            <th>Demand</th>
+            <th>Priority</th>
+            <th>Cost</th>
+            <th>Space</th>
+            <th>Profit</th>
+        </tr>
+
+        {% for p in products %}
+
+        <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.demand }}</td>
+            <td>{{ p.priority }}</td>
+            <td>₹{{ p.cost }}</td>
+            <td>{{ p.space }}</td>
+            <td>₹{{ p.profit }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+<div class="box">
+
+    <h2>🟢 Greedy Algorithm</h2>
+
+    <p>
+        Products are ranked using:
+        <b>(Priority × Demand) / Cost</b>
+    </p>
+
+    <ul>
+
+        {% for p in greedy_items %}
+        <li>
+            {{ p.name }} —
+            Cost: ₹{{ p.cost }},
+            Space: {{ p.space }},
+            Profit: ₹{{ p.profit }}
+        </li>
+        {% endfor %}
+
+    </ul>
+
+    <hr>
+
+    <b>Space Used:</b> {{ greedy_space }} / {{ capacity }}
+
+    <br>
+
+    <b>Budget Used:</b> ₹{{ greedy_budget }} / ₹{{ budget }}
+
+    <br>
+
+    <b>Expected Profit:</b> ₹{{ greedy_profit }}
+
+</div>
+
+
+<div class="box">
+
+    <h2>🔵 Dynamic Programming</h2>
+
+    <p>
+        DP searches for the maximum possible profit
+        within the available space and budget.
+    </p>
+
+    <ul>
+
+        {% for p in dp_items %}
+        <li>
+            {{ p.name }} —
+            Cost: ₹{{ p.cost }},
+            Space: {{ p.space }},
+            Profit: ₹{{ p.profit }}
+        </li>
+        {% endfor %}
+
+    </ul>
+
+    <hr>
+
+    <b>Space Used:</b> {{ dp_space }} / {{ capacity }}
+
+    <br>
+
+    <b>Budget Used:</b> ₹{{ dp_budget }} / ₹{{ budget }}
+
+    <br>
+
+    <b>Maximum Profit:</b> ₹{{ dp_profit }}
+
+</div>
+
+
+<div class="box">
+
+    <h2>⚡ Algorithm Comparison</h2>
+
+    <table>
+
+        <tr>
+            <th>Algorithm</th>
+            <th>Items</th>
+            <th>Space</th>
+            <th>Budget</th>
+            <th>Profit</th>
+        </tr>
+
+        <tr>
+            <td>Greedy</td>
+            <td>{{ greedy_items|length }}</td>
+            <td>{{ greedy_space }}</td>
+            <td>₹{{ greedy_budget }}</td>
+            <td>₹{{ greedy_profit }}</td>
+        </tr>
+
+        <tr>
+            <td>Dynamic Programming</td>
+            <td>{{ dp_items|length }}</td>
+            <td>{{ dp_space }}</td>
+            <td>₹{{ dp_budget }}</td>
+            <td>₹{{ dp_profit }}</td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
